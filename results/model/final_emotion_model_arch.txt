@@ -1,0 +1,42 @@
+Model: "sequential"
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓
+┃ Layer (type)                         ┃ Output Shape                ┃         Param # ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩
+│ conv2d (Conv2D)                      │ (None, 46, 46, 64)          │             640 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ max_pooling2d (MaxPooling2D)         │ (None, 23, 23, 64)          │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ conv2d_1 (Conv2D)                    │ (None, 21, 21, 128)         │          73,856 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ max_pooling2d_1 (MaxPooling2D)       │ (None, 10, 10, 128)         │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ conv2d_2 (Conv2D)                    │ (None, 8, 8, 256)           │         295,168 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ max_pooling2d_2 (MaxPooling2D)       │ (None, 4, 4, 256)           │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ flatten (Flatten)                    │ (None, 4096)                │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ dense (Dense)                        │ (None, 512)                 │       2,097,664 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ dropout (Dropout)                    │ (None, 512)                 │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ dense_1 (Dense)                      │ (None, 7)                   │           3,591 │
+└──────────────────────────────────────┴─────────────────────────────┴─────────────────┘
+ Total params: 7,412,759 (28.28 MB)
+ Trainable params: 2,470,919 (9.43 MB)
+ Non-trainable params: 0 (0.00 B)
+ Optimizer params: 4,941,840 (18.85 MB)
+
+ ### Model Architecture Rationale
+This CNN model was carefully designed to achieve effective emotion recognition from facial expressions while maintaining simplicity and efficiency:
+	1.	Conv2D Layers: The model starts with three convolutional layers, each with increasing filter sizes (64, 128, and 256). These layers allow the network to learn spatial features at different levels of abstraction, which is critical for recognizing distinct facial expressions.
+	2.	MaxPooling2D Layers: After each convolutional layer, MaxPooling is applied to reduce dimensionality, preserving essential features while discarding irrelevant details. This pooling also decreases the computational load, making the model more efficient.
+	3.	Flatten Layer: The output of the last MaxPooling layer is flattened to create a 1D vector, which serves as input for the fully connected (dense) layers.
+	4.	Dense Layer: A dense layer with 512 neurons follows, enabling the model to combine features from the previous layers to make complex predictions. The ReLU activation function ensures non-linearity, improving the model’s ability to learn intricate patterns in the data.
+	5.	Dropout Layer: A dropout layer with a rate of 0.5 is included to prevent overfitting. By randomly omitting neurons during training, dropout forces the model to learn more generalized patterns, enhancing performance on unseen data.
+	6.	Output Layer: The final dense layer uses the softmax activation function, yielding probabilities for each of the seven emotion categories: Happy, Sad, Angry, Surprise, Fear, Disgust, and Neutral.
+	7.	Data Augmentation: The ImageDataGenerator was utilized to perform data augmentation, including rotation, width and height shifts, zoom, and horizontal flips. This augmentation helps the model generalize better by exposing it to various transformations of the training data.
+	8.	EarlyStopping: Early stopping was applied to monitor the validation accuracy and stop training when no further improvement was observed, thus preventing overfitting. This contributed to training efficiency and model robustness.
+	9.	Test Accuracy: The model achieved a final test accuracy of approximately 61.67%, meeting the project requirement of over 60%.
+
+This architecture, combined with data augmentation and early stopping, strikes a balance between model complexity and generalization, achieving reliable results for real-time emotion detection.
