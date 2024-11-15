@@ -1,10 +1,8 @@
 .venv/
 data/
 logs/
-results/model/
-!results/model/tensorboard.png
-!results/model/learning_curves.png
-!results/model/final_emotion_model_arch.txt
+results/model/final_emotion_model.kernes
+results/model/mnist_cnn_model.kernes
+results/model/training_history.npy
 results/preprocessing_test/
-
 .DS_Store
