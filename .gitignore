@@ -7,4 +7,4 @@ results/model/
 !results/model/final_emotion_model_arch.txt
 results/preprocessing_test/
 
-echo ".DS_Store" >> .gitignore
+.DS_Store
