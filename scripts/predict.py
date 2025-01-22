@@ -3,44 +3,44 @@ import numpy as np
 import tensorflow as tf
 import os
 
-# Загрузка обученной модели
+# Loading the trained model
 model = tf.keras.models.load_model("../results/model/final_emotion_model.keras")
 
-# Путь к папке с сохраненными изображениями
+# Path to the folder with saved images
 input_folder = "../results/preprocessing_test"
 
-# Словарь для отображения эмоций
+# Dictionary for displaying emotions
 emotion_labels = {0: 'Angry', 1: 'Disgust', 2: 'Fear', 3: 'Happy', 4: 'Sad', 5: 'Surprise', 6: 'Neutral'}
 
-# Проверка наличия папки с изображениями
+# Checking for the presence of the image folder
 if not os.path.exists(input_folder):
     print("Ошибка: папка с изображениями не найдена.")
 else:
-    # Перебор всех изображений в папке
+    # Loop through all images in a folder
     for filename in sorted(os.listdir(input_folder)):
         if filename.endswith(".png"):
-            # Путь к изображению
+            # Path to image
             image_path = os.path.join(input_folder, filename)
 
-            # Загрузка и предобработка изображения
+            # Loading and preprocessing the image
             image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
             if image is None:
                 print(f"Ошибка: не удалось загрузить изображение {filename}")
                 continue
 
-            # Изменение размера и нормализация изображения
+           # Resize and normalize an image
             image_resized = cv2.resize(image, (48, 48)) / 255.0
             image_reshaped = np.reshape(image_resized, (1, 48, 48, 1))
 
-            # Предсказание эмоции
+           # Predicting emotion
             prediction = model.predict(image_reshaped)
             emotion_index = np.argmax(prediction)
             emotion_label = emotion_labels[emotion_index]
             confidence = np.max(prediction) * 100
 
-            # Вывод предсказанной эмоции и вероятности
+            # Output predicted emotion and probability
             print(f"Файл: {filename} | Эмоция: {emotion_label} | Вероятность: {confidence:.2f}%")
-            # Дополнительный вывод вероятностей всех эмоций для подробности
+            # Additional output of probabilities of all emotions for detail
             for idx, prob in enumerate(prediction[0]):
                 print(f"  {emotion_labels[idx]}: {prob * 100:.2f}%")
             print("\n" + "-"*50 + "\n")

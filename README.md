@@ -45,7 +45,7 @@ project
 1. Clone the repository:
 
     ``` 
-    git clone https://01.kood.tech/git/dvorontso/emotions-detector
+    git clone https://github.com/Daniila-vv/nlp-scraper.git
     ```
 
 2. Create a virtual environment (recommended):

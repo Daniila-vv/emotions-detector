@@ -1,10 +1,10 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-# Загрузка истории обучения
+# Loading training history
 history = np.load('../results/model/training_history.npy', allow_pickle=True).item()
 
-# Построение графиков точности и потерь
+# Plotting accuracy and loss graphs
 plt.figure(figsize=(12, 4))
 plt.subplot(1, 2, 1)
 plt.plot(history['accuracy'], label='Training Accuracy')
@@ -22,6 +22,6 @@ plt.ylabel('Loss')
 plt.legend(loc='upper right')
 plt.title('Training and Validation Loss')
 
-# Сохранение графиков
+# Saving graphs
 plt.savefig("../results/model/learning_curves.png")
 plt.show()
